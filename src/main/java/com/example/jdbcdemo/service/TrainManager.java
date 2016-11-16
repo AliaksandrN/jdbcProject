@@ -97,7 +97,22 @@ public class TrainManager {
 		}
 		return count;
 	}
-
+	
+	public int updateRecord(String trainNum, String departurePoint, String arrivalPoint, long id){
+		int i = -1;
+		try {
+			updateStmt.setString(1, trainNum);
+			updateStmt.setString(2, departurePoint);
+			updateStmt.setString(3, arrivalPoint);
+			updateStmt.setLong(4, id);
+			
+			i = updateStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
 
 	public boolean checkRecordByUniqueVal(String trainNum){
 		ResultSet rs = null;
