@@ -26,6 +26,7 @@ public class TicketManagerTest {
 	@Test
 	public void checkConnection(){
 		assertNotNull(ticketManager.getConnection());
+
 	}
 	
 	@Test
@@ -48,6 +49,28 @@ public class TicketManagerTest {
 		
 		assertEquals(FIRST_CLASS_PRICE, ticketRetrieved.getFirstClassPrice(), 0.02);
 		assertEquals(SECOND_CLASS_PRICE, ticketRetrieved.getSecondClassPrice(), 0.02);
+		assertEquals(id_train, ticketRetrieved.getId_train());
+	}
+	
+	@Test
+	public void checkRelation(){
+		
+		trainManager.clearTrain();
+		ticketManager.clearTicket();
+		
+		Train train = new Train(TRAIN_NUM,DEPARTURE_POINT,ARRIVAL_POINT);
+		assertEquals(1,trainManager.addTrain(train));
+		
+		List<Train> trains = trainManager.getAllTrains();
+		Train trainRetrieved = trains.get(0);
+		id_train = trainRetrieved.getId();
+		
+		Ticket ticket = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
+		assertEquals(1,ticketManager.addTicket(ticket));
+		
+		List<Ticket> tickets = ticketManager.getAllTickets();
+		Ticket ticketRetrieved = tickets.get(0);
+		
 		assertEquals(id_train, ticketRetrieved.getId_train());
 	}
 }

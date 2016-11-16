@@ -16,7 +16,6 @@ public class Train {
 		this.arrivalPoint = arrivalPoint;
 	}
 	
-	//long idTicket;
 	public long getId() {
 		return id_tr;
 	}
@@ -41,10 +40,4 @@ public class Train {
 	public void setArrivalPoint(String arrivalPoint) {
 		this.arrivalPoint = arrivalPoint;
 	}
-	/*public long getIdTicket() {
-		return idTicket;
-	}
-	public void setIdTicket(long idTicket) {
-		this.idTicket = idTicket;
-	}*/
 }
