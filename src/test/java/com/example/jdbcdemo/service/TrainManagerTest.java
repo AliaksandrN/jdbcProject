@@ -112,26 +112,27 @@ public class TrainManagerTest {
 	}
 	
 	@Test
-	public void checkUpdate(){
-		
+	public void checkUpdate() {
+
 		Train train = new Train(TRAIN_NUM, DEPARTURE_POINT, ARRIVAL_POINT);
 		trainManager.clearTrain();
-		assertEquals(1,trainManager.addTrain(train));
+		assertEquals(1, trainManager.addTrain(train));
 		List<Train> trains = trainManager.getAllTrains();
 		Train trainRetrieved = trains.get(0);
-		
+
 		assertEquals(TRAIN_NUM, trainRetrieved.getTrainNum());
 		assertEquals(ARRIVAL_POINT, trainRetrieved.getArrivalPoint());
 		assertEquals(DEPARTURE_POINT, trainRetrieved.getDeparturePoint());
-		
-		assertEquals(1, trainManager.updateRecord(TRAIN_NUM1, DEPARTURE_POINT1, ARRIVAL_POINT1, trainRetrieved.getId()));
-		
+
+		assertEquals(1,
+				trainManager.updateRecord(TRAIN_NUM1, DEPARTURE_POINT1, ARRIVAL_POINT1, trainRetrieved.getId()));
+
 		trains = trainManager.getAllTrains();
 		trainRetrieved = trains.get(0);
-		
+
 		assertEquals(TRAIN_NUM1, trainRetrieved.getTrainNum());
 		assertEquals(ARRIVAL_POINT1, trainRetrieved.getArrivalPoint());
 		assertEquals(DEPARTURE_POINT1, trainRetrieved.getDeparturePoint());
-		
+
 	}
 }
