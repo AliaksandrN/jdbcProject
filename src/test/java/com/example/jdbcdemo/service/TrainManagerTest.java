@@ -34,9 +34,9 @@ public class TrainManagerTest {
 		Train train1 = new Train(TRAIN_NUM1, DEPARTURE_POINT, ARRIVAL_POINT);
 		Train train2 = new Train(TRAIN_NUM2, DEPARTURE_POINT, ARRIVAL_POINT);
 		
-		trainManager.clearTrain();
-		assertEquals(1,trainManager.addTrain(train));
-		List<Train> trains = trainManager.getAllTrains();
+		trainManager.clear();
+		assertEquals(1,trainManager.add(train));
+		List<Train> trains = trainManager.getAll();
 		Train trainRetrieved = trains.get(0);
 
 		assertEquals(TRAIN_NUM, trainRetrieved.getTrainNum());
@@ -44,13 +44,13 @@ public class TrainManagerTest {
 		assertEquals(DEPARTURE_POINT, trainRetrieved.getDeparturePoint());
 		
 		trains = null;
-		trainManager.clearTrain();
+		trainManager.clear();
 		
-		assertEquals(1,trainManager.addTrain(train));
-		assertEquals(1,trainManager.addTrain(train1));
-		assertEquals(1,trainManager.addTrain(train2));
+		assertEquals(1,trainManager.add(train));
+		assertEquals(1,trainManager.add(train1));
+		assertEquals(1,trainManager.add(train2));
 		
-		trains = trainManager.getAllTrains();
+		trains = trainManager.getAll();
 		
 		assertEquals(3, trains.size());
 	}
@@ -62,26 +62,26 @@ public class TrainManagerTest {
 		Train train1 = new Train(TRAIN_NUM1, DEPARTURE_POINT, ARRIVAL_POINT);
 		Train train2 = new Train(TRAIN_NUM2, DEPARTURE_POINT, ARRIVAL_POINT);
 		
-		trainManager.clearTrain();
-		assertEquals(1,trainManager.addTrain(train));
-		assertEquals(1,trainManager.addTrain(train1));
-		assertEquals(1,trainManager.addTrain(train2));
-		trainManager.clearTrain();
+		trainManager.clear();
+		assertEquals(1,trainManager.add(train));
+		assertEquals(1,trainManager.add(train1));
+		assertEquals(1,trainManager.add(train2));
+		trainManager.clear();
 		
-		List<Train> trains = trainManager.getAllTrains();
+		List<Train> trains = trainManager.getAll();
 		assertEquals(0, trains.size());
 	
-		assertEquals(1,trainManager.addTrain(train));
-		assertEquals(1,trainManager.addTrain(train1));
-		assertEquals(1,trainManager.addTrain(train2));
+		assertEquals(1,trainManager.add(train));
+		assertEquals(1,trainManager.add(train1));
+		assertEquals(1,trainManager.add(train2));
 		
-		trains = trainManager.getAllTrains();
+		trains = trainManager.getAll();
 		assertEquals(3, trains.size());
 		
 		String trainNum = trains.get(0).getTrainNum();
 		long deleted_train = trains.get(0).getId();
 		trainManager.deleteOne(deleted_train);
-		trains = trainManager.getAllTrains();
+		trains = trainManager.getAll();
 
 		assertEquals(2, trains.size());
 		assertTrue(trainManager.checkRecordByUniqueVal(trainNum));		
@@ -94,12 +94,12 @@ public class TrainManagerTest {
 		Train train1 = new Train(TRAIN_NUM1, DEPARTURE_POINT, ARRIVAL_POINT);
 		Train train2 = new Train(TRAIN_NUM2, DEPARTURE_POINT, ARRIVAL_POINT);
 		
-		trainManager.clearTrain();
-		assertEquals(1,trainManager.addTrain(train));
-		assertEquals(1,trainManager.addTrain(train1));
-		assertEquals(1,trainManager.addTrain(train2));
+		trainManager.clear();
+		assertEquals(1,trainManager.add(train));
+		assertEquals(1,trainManager.add(train1));
+		assertEquals(1,trainManager.add(train2));
 		
-		List<Train> trains = trainManager.getAllTrains();
+		List<Train> trains = trainManager.getAll();
 		assertEquals(3, trains.size());
 		
 		assertEquals(TRAIN_NUM, trains.get(0).getTrainNum());
@@ -115,9 +115,9 @@ public class TrainManagerTest {
 	public void checkUpdate() {
 
 		Train train = new Train(TRAIN_NUM, DEPARTURE_POINT, ARRIVAL_POINT);
-		trainManager.clearTrain();
-		assertEquals(1, trainManager.addTrain(train));
-		List<Train> trains = trainManager.getAllTrains();
+		trainManager.clear();
+		assertEquals(1, trainManager.add(train));
+		List<Train> trains = trainManager.getAll();
 		Train trainRetrieved = trains.get(0);
 
 		assertEquals(TRAIN_NUM, trainRetrieved.getTrainNum());
@@ -127,7 +127,7 @@ public class TrainManagerTest {
 		assertEquals(1,
 				trainManager.updateRecord(TRAIN_NUM1, DEPARTURE_POINT1, ARRIVAL_POINT1, trainRetrieved.getId()));
 
-		trains = trainManager.getAllTrains();
+		trains = trainManager.getAll();
 		trainRetrieved = trains.get(0);
 
 		assertEquals(TRAIN_NUM1, trainRetrieved.getTrainNum());

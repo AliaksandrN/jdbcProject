@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.example.jdbcdemo.domain.Ticket;
 
-public class TicketManager {
+public class TicketManager implements IManager {
 	private Connection connection;
 
 	private String url = "jdbc:hsqldb:file:/tmp/projectdb;ifexists=false";
@@ -19,7 +19,7 @@ public class TicketManager {
 	private String addFkToTicket = "ALTER TABLE PUBLIC.Ticket ADD FOREIGN KEY (id_train) REFERENCES PUBLIC.Train(id_tr)";
 	private PreparedStatement addStmt;
 	private PreparedStatement deleteAllStmt;
-	private PreparedStatement getAllTicketsStmt;
+	private PreparedStatement getAlltsStmt;
 	private PreparedStatement deleteOneStmt;
 	private PreparedStatement checkIdStmt;
 	private PreparedStatement updateStmt;
@@ -44,25 +44,30 @@ public class TicketManager {
 				statement.executeUpdate(createTableTicket);
 				statement.executeUpdate(addFkToTicket);
 			}
-			addStmt = connection.prepareStatement(
-					"INSERT INTO Ticket (firstClassPrice, secondClassPrice, id_train) VALUES (?, ?, ?)");
-			deleteAllStmt = connection.prepareStatement("DELETE FROM Ticket");
-			getAllTicketsStmt = connection
+			addStmt = connection
+					.prepareStatement("INSERT INTO Ticket (firstClassPrice, secondClassPrice, id_train) VALUES (?, ?, ?)");
+			deleteAllStmt = connection
+					.prepareStatement("DELETE FROM Ticket");
+			getAlltsStmt = connection
 					.prepareStatement("SELECT id_ti, firstClassPrice, secondClassPrice, id_train FROM Ticket");
-			deleteOneStmt = connection.prepareStatement("DELETE FROM Ticket WHERE id_ti = ? ");
-			checkIdStmt = connection.prepareStatement("SELECT firstClassPrice FROM Ticket where id_ti = ?");
-			updateStmt = connection.prepareStatement(
-					"UPDATE Ticket SET firstClassPrice = ?, secondClassPrice = ?, id_train = ? WHERE id_ti = ?");
+			deleteOneStmt = connection
+					.prepareStatement("DELETE FROM Ticket WHERE id_ti = ? ");
+			checkIdStmt = connection
+					.prepareStatement("SELECT firstClassPrice FROM Ticket where id_ti = ?");
+			updateStmt = connection
+					.prepareStatement("UPDATE Ticket SET firstClassPrice = ?, secondClassPrice = ?, id_train = ? WHERE id_ti = ?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	Connection getConnection() {
+	@Override
+	public Connection getConnection() {
 		return connection;
 	}
 
-	void clearTicket() {
+	@Override
+	public void clear() {
 		try {
 			deleteAllStmt.executeUpdate();
 		} catch (SQLException e) {
@@ -70,7 +75,8 @@ public class TicketManager {
 		}
 	}
 
-	void deleteOne(long id) {
+	@Override
+	public void deleteOne(long id) {
 		try {
 			deleteOneStmt.setLong(1, id);
 			deleteOneStmt.executeUpdate();
@@ -79,7 +85,7 @@ public class TicketManager {
 		}
 	}
 
-	public int addTicket(Ticket ticket) {
+	public int add(Ticket ticket) {
 		int count = 0;
 		try {
 
@@ -130,11 +136,12 @@ public class TicketManager {
 		return b;
 	}
 
-	public List<Ticket> getAllTickets() {
+	@Override
+	public List<Ticket> getAll() {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 
 		try {
-			ResultSet rs = getAllTicketsStmt.executeQuery();
+			ResultSet rs = getAlltsStmt.executeQuery();
 
 			while (rs.next()) {
 				Ticket t = new Ticket();
