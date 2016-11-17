@@ -13,5 +13,4 @@ public interface IManager {
 
 	public List<?> getAll();
 
-
 }

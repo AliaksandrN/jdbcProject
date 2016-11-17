@@ -77,12 +77,17 @@ public class TicketManagerTest {
 		id_train = trainRetrieved.getId();
 
 		Ticket ticket = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
+		Ticket ticket1 = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
+		Ticket ticket2 = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
+		
 		assertEquals(1, ticketManager.add(ticket));
+		assertEquals(1, ticketManager.add(ticket1));
+		assertEquals(1, ticketManager.add(ticket2));
 
-		List<Ticket> tickets = ticketManager.getAll();
-		Ticket ticketRetrieved = tickets.get(0);
-
-		assertEquals(id_train, ticketRetrieved.getId_train());
+		//List<Ticket> tickets = ticketManager.getAll();
+		//Ticket ticketRetrieved = tickets.get(0);
+		assertEquals(3,ticketManager.selectJoin());
+		//assertEquals(id_train, ticketRetrieved.getId_train());
 	}
 
 	@Test
