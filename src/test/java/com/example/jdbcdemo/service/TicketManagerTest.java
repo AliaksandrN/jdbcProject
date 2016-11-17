@@ -84,10 +84,7 @@ public class TicketManagerTest {
 		assertEquals(1, ticketManager.add(ticket1));
 		assertEquals(1, ticketManager.add(ticket2));
 
-		//List<Ticket> tickets = ticketManager.getAll();
-		//Ticket ticketRetrieved = tickets.get(0);
 		assertEquals(3,ticketManager.selectJoin());
-		//assertEquals(id_train, ticketRetrieved.getId_train());
 	}
 
 	@Test
