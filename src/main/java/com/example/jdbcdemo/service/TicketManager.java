@@ -21,6 +21,8 @@ public class TicketManager {
 	private PreparedStatement addTicketStmt;
 	private PreparedStatement deleteAllTicketsStmt;
 	private PreparedStatement getAllTicketsStmt;
+	private PreparedStatement deleteOneStmt;
+	private PreparedStatement checkIdStmt;
 	
 	Statement statement;
 	
@@ -48,7 +50,10 @@ public class TicketManager {
 					.prepareStatement("DELETE FROM Ticket");
 			getAllTicketsStmt = connection
 					.prepareStatement("SELECT id_ti, firstClassPrice, secondClassPrice, id_train FROM Ticket");
-			
+			deleteOneStmt = connection
+					.prepareStatement("DELETE FROM Ticket WHERE id_ti = ? ");
+			checkIdStmt = connection
+					.prepareStatement("SELECT firstClassPrice FROM Ticket where id_ti = ?");
 		} catch (SQLException e) {
 			System.out.println("HEREEEEEEEEEEEEEEEEEE!!!!!!!!!!!!");
 			e.printStackTrace();
@@ -61,6 +66,15 @@ public class TicketManager {
 	void clearTicket() {
 		try {
 			deleteAllTicketsStmt.executeUpdate();			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void deleteOne(long id){
+		try {
+			deleteOneStmt.setLong(1, id);
+			deleteOneStmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -80,7 +94,26 @@ public class TicketManager {
 		}
 		return count;
 	}
-
+	public boolean checkRecordByUniqueVal(long id){
+		ResultSet rs = null;
+		boolean b = false;
+		try {
+			checkIdStmt.setLong(1, id);
+			rs = checkIdStmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if (!rs.isBeforeFirst())   
+			    b = true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+	
 	public List<Ticket> getAllTickets() {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 

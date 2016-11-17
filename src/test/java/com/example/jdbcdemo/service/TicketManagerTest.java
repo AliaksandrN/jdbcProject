@@ -2,6 +2,7 @@ package com.example.jdbcdemo.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -17,11 +18,20 @@ public class TicketManagerTest {
 	
 	private long id_train;
 	private final static String TRAIN_NUM = "AB123";
+	private final static String TRAIN_NUM1 = "AB222";
+	private final static String TRAIN_NUM2 = "AB333";
+	
 	private final static String DEPARTURE_POINT = "Warszawa centralna";
 	private final static String ARRIVAL_POINT = "Gdank glowny";
 	
 	private final static double FIRST_CLASS_PRICE = 25.99;
 	private final static double SECOND_CLASS_PRICE = 18.99;
+	
+	private final static double FIRST_CLASS_PRICE1 = 11.11;
+	private final static double SECOND_CLASS_PRICE1 = 15.15;
+	
+	private final static double FIRST_CLASS_PRICE2 = 22.22;
+	private final static double SECOND_CLASS_PRICE2 = 25.25;
 
 	@Test
 	public void checkConnection(){
@@ -72,5 +82,53 @@ public class TicketManagerTest {
 		Ticket ticketRetrieved = tickets.get(0);
 		
 		assertEquals(id_train, ticketRetrieved.getId_train());
+	}
+	@Test
+	public void checkDeletion(){
+		
+		trainManager.clearTrain();
+		ticketManager.clearTicket();
+		
+		Train train = new Train(TRAIN_NUM, DEPARTURE_POINT, ARRIVAL_POINT);
+		Train train1 = new Train(TRAIN_NUM1, DEPARTURE_POINT, ARRIVAL_POINT);
+		Train train2 = new Train(TRAIN_NUM2, DEPARTURE_POINT, ARRIVAL_POINT);
+		
+		assertEquals(1,trainManager.addTrain(train));
+		assertEquals(1,trainManager.addTrain(train1));
+		assertEquals(1,trainManager.addTrain(train2));
+		
+		List<Train> trains = trainManager.getAllTrains();
+		assertEquals(3, trains.size());
+		
+		Ticket ticket = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, trains.get(0).getId());
+		Ticket ticket1 = new Ticket(FIRST_CLASS_PRICE1, SECOND_CLASS_PRICE1, trains.get(1).getId());
+		Ticket ticket2 = new Ticket(FIRST_CLASS_PRICE2, SECOND_CLASS_PRICE2, trains.get(2).getId());
+		
+		assertEquals(1,ticketManager.addTicket(ticket));
+		assertEquals(1,ticketManager.addTicket(ticket1));
+		assertEquals(1,ticketManager.addTicket(ticket2));
+		
+		List<Ticket> tickets = ticketManager.getAllTickets();
+		assertEquals(3, tickets.size());
+		
+		ticketManager.clearTicket();
+		
+		tickets = ticketManager.getAllTickets();
+		assertEquals(0, tickets.size());
+		
+		assertEquals(1,ticketManager.addTicket(ticket));
+		assertEquals(1,ticketManager.addTicket(ticket1));
+		assertEquals(1,ticketManager.addTicket(ticket2));
+		
+		tickets = ticketManager.getAllTickets();
+		assertEquals(3, tickets.size());
+		
+		long deleting_ticket = tickets.get(0).getId();
+		ticketManager.deleteOne(deleting_ticket);
+		
+		tickets = ticketManager.getAllTickets();
+		assertEquals(2, tickets.size());
+		
+		assertTrue(ticketManager.checkRecordByUniqueVal(deleting_ticket));
 	}
 }
