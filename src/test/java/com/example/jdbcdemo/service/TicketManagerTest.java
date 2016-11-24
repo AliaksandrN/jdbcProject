@@ -18,6 +18,7 @@ public class TicketManagerTest {
 	TrainManager trainManager = new TrainManager();
 
 	private long id_train;
+	private long id_train2;
 	private final static String TRAIN_NUM = "AB123";
 	private final static String TRAIN_NUM1 = "AB222";
 	private final static String TRAIN_NUM2 = "AB333";
@@ -72,19 +73,29 @@ public class TicketManagerTest {
 		Train train = new Train(TRAIN_NUM, DEPARTURE_POINT, ARRIVAL_POINT);
 		assertEquals(1, trainManager.add(train));
 
+		Train train2 = new Train(TRAIN_NUM1, DEPARTURE_POINT, ARRIVAL_POINT);
+		assertEquals(1, trainManager.add(train2));
+				
 		List<Train> trains = trainManager.getAll();
 		Train trainRetrieved = trains.get(0);
 		id_train = trainRetrieved.getId();
+		
+		Train trainRetrieved2 = trains.get(1);
+		id_train2 = trainRetrieved2.getId();
 
 		Ticket ticket = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
 		Ticket ticket1 = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
 		Ticket ticket2 = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train);
 		
+		Ticket ticket3 = new Ticket(FIRST_CLASS_PRICE, SECOND_CLASS_PRICE, id_train2);
+		
 		assertEquals(1, ticketManager.add(ticket));
 		assertEquals(1, ticketManager.add(ticket1));
 		assertEquals(1, ticketManager.add(ticket2));
 
-		assertEquals(3,ticketManager.selectJoin());
+		assertEquals(1, ticketManager.add(ticket3));
+		
+		assertEquals(1,ticketManager.selectJoin(id_train));
 	}
 
 	@Test

@@ -169,9 +169,10 @@ public class TicketManager implements IManager {
 		}
 		return tickets;
 	}
-	public int selectJoin(){
+	public int selectJoin(Long trN){
 		int i = 0;
-		String sqlSelectRecord = "SELECT Train.trainNum, Ticket.firstClassPrice FROM Ticket LEFT OUTER JOIN Train ON Ticket.id_ti = Train.id_tr";
+		//String sqlSelectRecord = "SELECT Train.*, Ticket.firstClassPrice FROM Ticket LEFT OUTER JOIN Train ON (Ticket.id_ti = Train.id_tr) WHERE Train.id_tr='"+ trN +"'";
+		String sqlSelectRecord = "SELECT Train.*, Ticket.firstClassPrice FROM Train LEFT OUTER JOIN Ticket ON (Train.id_tr=Ticket.id_ti) where Train.id_tr='"+ trN +"'";
 		ResultSet rs = null;
 		PreparedStatement sql = null;
 		try{
